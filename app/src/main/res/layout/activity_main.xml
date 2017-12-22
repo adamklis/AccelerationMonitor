@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.klis.adam.accelerationmonitor.MainActivity">
+
+    <LinearLayout
+        xmlns:ap="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="18sp" />
+
+        <com.androidplot.xy.XYPlot
+            style="@style/APDefacto.Dark"
+            android:id="@+id/plot"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            ap:title="Acceleration Plot"
+            ap:rangeTitle="range"
+            ap:domainTitle="domain"
+            ap:lineLabels="left|bottom"
+            ap:lineLabelRotationBottom="-45"/>
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
