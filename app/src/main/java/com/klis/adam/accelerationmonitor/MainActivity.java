@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.FastLineAndPointRenderer;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensor=null;
 
-        if ((sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)) != null) {
+        if ((sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)) != null) {
 
         }
         else{
@@ -83,21 +84,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         seriesY = new SimpleXYSeries(Arrays.asList(seriesYVal), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Y");
         seriesZ = new SimpleXYSeries(Arrays.asList(seriesZVal), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Z");
         seriesSUM = new SimpleXYSeries(Arrays.asList(seriesSUMVal), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "SUM");
-//        LineAndPointFormatter seriesXFormat = new LineAndPointFormatter(Color.RED, Color.RED, Color.RED, null);
-//        LineAndPointFormatter seriesYFormat = new LineAndPointFormatter(Color.GREEN, Color.GREEN, Color.GREEN, null);
-//        LineAndPointFormatter seriesZFormat = new LineAndPointFormatter(Color.BLUE, Color.BLUE, Color.BLUE, null);
-//        seriesXFormat.setInterpolationParams(
-//                new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
 
+        //seriesXFormat.setInterpolationParams(new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
 
         xyPlot.addSeries(seriesX, new FastLineAndPointRenderer.Formatter(Color.RED, null, null));
         xyPlot.addSeries(seriesY, new FastLineAndPointRenderer.Formatter(Color.GREEN, null, null));
         xyPlot.addSeries(seriesZ, new FastLineAndPointRenderer.Formatter(Color.BLUE, null, null));
         xyPlot.addSeries(seriesSUM, new FastLineAndPointRenderer.Formatter(Color.LTGRAY, null, null));
+
+        xyPlot.setRangeBoundaries(-15,15, BoundaryMode.FIXED);
+
         textView = findViewById(R.id.textView);
-
-
-
     }
 
     @Override
@@ -113,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         seriesX.setY(sensorEvent.values[0], 29);
         seriesY.setY(sensorEvent.values[1], 29);
         seriesZ.setY(sensorEvent.values[2], 29);
-        seriesSUM.setY(sensorEvent.values[0]+sensorEvent.values[1]+sensorEvent.values[2], 29);
+        seriesSUM.setY(Math.abs(sensorEvent.values[0])+Math.abs(sensorEvent.values[1])+Math.abs(sensorEvent.values[2]), 29);
         xyPlot.redraw();
 
     }
@@ -126,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
