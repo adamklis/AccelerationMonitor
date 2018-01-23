@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensor=null;
 
-        if ((sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)) != null) {
+        if ((sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)) != null) {
 
         }
         else{
